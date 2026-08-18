@@ -61,7 +61,11 @@
 Скрипт написан на Python 3.8+. Установите необходимые библиотеки:
 
 bash
-```pip install -r requirements.txt```
+pip install -r requirements.txt
+
+bash
+
+pip install requests==2.31.0 google-auth==2.23.4 google-auth-oauthlib==1.0.0 google-auth-httplib2==0.1.1 google-api-python-client==2.108.0
 
 ### 2. Получение доступа к Google Calendar API
 
