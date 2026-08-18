@@ -1,0 +1,152 @@
+# ============================================
+# Coupon Calendar Sync - .gitignore
+# ============================================
+
+# --- Секретные данные (НЕ ПУБЛИКОВАТЬ!) ---
+token.json                    # Токен доступа Google (авто-создаётся)
+credentials.json              # OAuth 2.0 ключи Google
+*.pem                         # Ключи и сертификаты
+*.key                         # Ключи и сертификаты
+*.p12                         # Ключи и сертификаты
+*.pfx                         # Ключи и сертификаты
+.env                          # Переменные окружения
+.env.local                    # Локальные переменные
+.env.*.local                  # Локальные переменные
+
+# --- Python ---
+__pycache__/                  # Кеш Python
+*.pyc                         # Скомпилированные файлы
+*.pyo                         # Оптимизированные файлы
+*.pyd                         # Библиотеки Python
+.pytest_cache/                # Кеш тестов
+.coverage                     # Отчёты покрытия
+htmlcov/                      # HTML-отчёты покрытия
+.tox/                         # Тестовые среды tox
+.mypy_cache/                  # Кеш mypy
+.dmypy.json                   # Демон mypy
+dmypy.json                    # Демон mypy
+.pyre/                        # Кеш Pyre
+.pytype/                      # Кеш Pytype
+
+# --- Виртуальные окружения ---
+venv/                         # Виртуальное окружение
+env/                          # Виртуальное окружение
+ENV/                          # Виртуальное окружение
+env.bak/                      # Бэкап окружения
+venv.bak/                     # Бэкап окружения
+.venv/                        # Виртуальное окружение
+virtualenv/                   # Виртуальное окружение
+
+# --- Системные файлы ---
+.DS_Store                     # macOS
+Thumbs.db                     # Windows
+desktop.ini                   # Windows
+*.log                         # Логи
+*.tmp                         # Временные файлы
+*.swp                         # Vim swap
+*.swo                         # Vim swap
+*~                            # Бэкап-файлы
+
+# --- IDE и редакторы ---
+.vscode/                      # VS Code
+.idea/                        # PyCharm / IntelliJ
+*.iml                         # IntelliJ
+*.iws                         # IntelliJ
+*.ipr                         # IntelliJ
+.classpath                    # Eclipse
+.project                      # Eclipse
+.settings/                    # Eclipse
+*.suo                         # Visual Studio
+*.user                        # Visual Studio
+*.sln                         # Visual Studio
+*.csproj                      # Visual Studio
+*.vbproj                      # Visual Studio
+*.fsproj                      # Visual Studio
+
+# --- Jupyter Notebooks ---
+.ipynb_checkpoints/           # Jupyter
+.ipynb                        # Ноутбуки (если не храним)
+*.ipynb                       # Ноутбуки (если не храним)
+
+# --- Файлы сборки и дистрибуции ---
+dist/                         # Сборки пакетов
+build/                        # Временные файлы сборки
+*.egg-info/                   # Информация о пакете
+*.egg                         # Яйца Python
+MANIFEST                      # Манифест пакета
+*.so                          # Скомпилированные библиотеки
+*.dylib                       # Скомпилированные библиотеки
+*.dll                         # Скомпилированные библиотеки
+
+# --- Базы данных ---
+*.db                          # Базы данных
+*.sqlite                      # SQLite
+*.sqlite3                     # SQLite
+
+# --- Отчёты и документация ---
+site/                         # Сгенерированная документация
+docs/_build/                  # Сборка Sphinx
+docs/api/                     # Сгенерированная API-документация
+
+# --- Тесты и покрытие ---
+.coverage                     # Отчёт покрытия
+coverage.xml                  # Отчёт покрытия
+*.cover                       # Отчёт покрытия
+.hypothesis/                  # Hypothesis
+.pytest_cache/                # Кеш pytest
+
+# --- Логи и временные файлы ---
+*.log                         # Логи
+logs/                         # Папка логов
+tmp/                          # Временные файлы
+temp/                         # Временные файлы
+*.bak                         # Бэкап-файлы
+
+# --- Утилиты и инструменты ---
+*.lock                        # Файлы блокировки (не npm)
+npm-debug.log*                # npm
+yarn-debug.log*               # yarn
+yarn-error.log*               # yarn
+package-lock.json             # npm (если не нужен)
+node_modules/                 # Node.js (если вдруг)
+
+# --- Terraform (опционально) ---
+*.tfstate                     # Terraform
+*.tfstate.*                   # Terraform
+.terraform/                   # Terraform
+
+# --- Docker ---
+docker-compose.override.yml   # Переопределение Docker
+Dockerfile.*                  # Dockerfile
+*.dockerignore                # Docker ignore
+
+# --- Другое ---
+*.bak                         # Бэкап-файлы
+*.old                         # Старые файлы
+*.orig                        # Оригиналы файлов
+*.rej                         # Отклонённые изменения
+*.patch                       # Патчи
+*.diff                        # Различия
+
+# ============================================
+# Файлы, специфичные для этого проекта
+# ============================================
+
+# --- Данные пользователя (НЕ ПУБЛИКОВАТЬ!) ---
+bonds.txt                     # Ваш файл с ISIN (если содержит реальные данные)
+portfolio.txt                 # Ваш портфель (если есть)
+*.csv                         # Файлы с данными (если содержат личные данные)
+
+# --- Результаты работы скрипта ---
+output/                       # Папка с выходными файлами
+*.ics                         # Календарные файлы (если генерируются)
+events_backup.json            # Бэкап событий
+
+# --- Локальные настройки ---
+config.local.py               # Локальный конфиг
+settings.local.py             # Локальный конфиг
+*.local.py                    # Локальные конфиги
+
+# --- Репорты ---
+report.html                   # Репорты
+report.json                   # Репорты

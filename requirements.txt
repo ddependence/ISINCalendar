@@ -1,0 +1,25 @@
+# ============================================
+# ISIN Calendar Sync - Зависимости
+# ============================================
+
+# --- Основные библиотеки ---
+requests==2.31.0              # HTTP-запросы к API Мосбиржи
+google-auth==2.23.4           # Аутентификация Google
+google-auth-oauthlib==1.0.0   # OAuth 2.0 для Google
+google-auth-httplib2==0.1.1   # Транспортный слой
+google-api-python-client==2.108.0  # Google Calendar API
+
+# --- Зависимости (устанавливаются автоматически) ---
+# httplib2==0.22.0
+# urllib3==2.0.7
+# certifi==2023.7.22
+# charset-normalizer==3.3.0
+# idna==3.4
+# PyJWT==2.8.0
+# rsa==4.9
+# cachetools==5.3.1
+# pyasn1==0.5.0
+# pyasn1-modules==0.3.0
+# google-api-core==2.12.0
+# googleapis-common-protos==1.60.0
+# protobuf==4.25.0
