@@ -62,4 +62,4 @@
 Скрипт написан на Python 3.8+. Установите необходимые библиотеки:
 
 ```bash
-pip install -r requirements.txt
+pip install -r requirements.txt"# ISINCalendar" 
