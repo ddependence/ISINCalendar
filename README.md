@@ -76,9 +76,9 @@ pip install requests==2.31.0 google-auth==2.23.4 google-auth-oauthlib==1.0.0 goo
 
 3. Включите Google Calendar API:
 
-        Перейдите в раздел "Библиотека";
+    - Перейдите в раздел "Библиотека"
 
-        Найдите "Google Calendar API" и нажмите "Включить".
+    - Найдите "Google Calendar API" и нажмите "Включить".
 
 4. Создайте OAuth 2.0 Client ID:
 
