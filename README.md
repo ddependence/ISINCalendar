@@ -36,7 +36,6 @@
 | 2 | Создание OAuth 2.0 Client ID | <img src="docs/screenshots/create_oauth.png" alt="Создание OAuth" width="200"> |
 | 3 | Скачивание `credentials.json` | <img src="docs/screenshots/download_credentials.png" alt="Скачивание credentials" width="200"> |
 
-> **Примечание:** Скриншоты временно отсутствуют. Вы можете создать их самостоятельно и разместить в папке `docs/screenshots/`.
 
 ---
 
@@ -60,6 +59,9 @@
 ### 1. Установите зависимости
 
 Скрипт написан на Python 3.8+. Установите необходимые библиотеки:
+
+```bash
+pip install -r requirements.txt ```
 
 ### 2. Получение доступа к Google Calendar API
 
