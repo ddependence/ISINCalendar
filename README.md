@@ -65,11 +65,11 @@
 pip install -r requirements.txt"# ISINCalendar" 
 
 Или вручную:
-bash
+```bash
 
 pip install requests==2.31.0 google-auth==2.23.4 google-auth-oauthlib==1.0.0 google-auth-httplib2==0.1.1 google-api-python-client==2.108.0
 
-2. Получите доступ к Google Calendar API
+### 2. Получите доступ к Google Calendar API
 
 Чтобы скрипт мог добавлять события в ваш календарь, нужно создать OAuth 2.0 клиент в Google Cloud Console.
 
