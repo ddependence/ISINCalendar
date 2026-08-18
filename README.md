@@ -60,8 +60,8 @@
 
 Скрипт написан на Python 3.8+. Установите необходимые библиотеки:
 
-```bash```
-pip install -r requirements.txt
+bash
+```pip install -r requirements.txt```
 
 ### 2. Получение доступа к Google Calendar API
 
