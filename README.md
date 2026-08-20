@@ -116,7 +116,34 @@ isin_calendar.py isin_list.txt
 
 ## 📁 Структура проекта
 
-
+isin-calendar/
+│
+├── isin_calendar.py              # Основной скрипт ⭐
+├── requirements.txt              # Зависимости ⭐
+├── README.md                     # Документация ⭐
+├── .gitignore                    # Защита секретов ⭐
+├── LICENSE                       # Лицензия MIT
+├── CHANGELOG.md                  # История изменений
+├── CONTRIBUTING.md               # Правила участия
+│
+├── examples/
+│   └── isin_list_example.txt    # Пример файла со списком ISIN
+│
+├── docs/
+│   └── screenshots/              # Папка для скриншотов
+│       ├── calendar_event_example.png
+│       ├── enable_api.png
+│       ├── create_oauth.png
+│       └── download_credentials.png
+│
+├── tests/                        # Тесты (опционально)
+│   ├── test_coupon_parser.py
+│   └── test_calendar_sync.py
+│
+└── .github/
+    └── workflows/
+        └── python-app.yml       # CI/CD (GitHub Actions)
+        
 ---
 
 ## ⚙️ Как это работает
@@ -140,4 +167,5 @@ isin_calendar.py isin_list.txt
 
 ---
 
-
+### 🪟 Инструкция для Windows
+📱 Синхронизация с Android (Poco / Xiaomi HyperOS)
