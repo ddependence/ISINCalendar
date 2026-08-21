@@ -116,15 +116,15 @@ isin_calendar.py isin_list.txt
 
 ## 📁 Структура проекта
 
-isin-calendar/
+isin-calendar/ 
 │
-├── isin_calendar.py              # Основной скрипт ⭐
-├── requirements.txt              # Зависимости ⭐
-├── README.md                     # Документация ⭐
-├── .gitignore                    # Защита секретов ⭐
-├── LICENSE                       # Лицензия MIT
-├── CHANGELOG.md                  # История изменений
-├── CONTRIBUTING.md               # Правила участия
+├── isin_calendar.py               # Основной скрипт ⭐
+├── requirements.txt               # Зависимости ⭐
+├── README.md                      # Документация ⭐
+├── .gitignore                     # Защита секретов ⭐
+├── LICENSE                        # Лицензия MIT
+├── CHANGELOG.md                   # История изменений
+├── CONTRIBUTING.md                # Правила участия
 │
 ├── examples/
 │   └── isin_list_example.txt    # Пример файла со списком ISIN
@@ -143,7 +143,7 @@ isin-calendar/
 └── .github/
     └── workflows/
         └── python-app.yml       # CI/CD (GitHub Actions)
-        
+
 ---
 
 ## ⚙️ Как это работает
