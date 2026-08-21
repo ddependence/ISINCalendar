@@ -129,6 +129,7 @@ isin-calendar/
 ├── examples/
 │   └── isin_list_example.txt    # Пример файла со списком ISIN
 │
+
 ├── docs/
 │   └── screenshots/              # Папка для скриншотов
 │       ├── calendar_event_example.png
@@ -136,10 +137,7 @@ isin-calendar/
 │       ├── create_oauth.png
 │       └── download_credentials.png
 │
-├── tests/                        # Тесты (опционально)
-│   ├── test_coupon_parser.py
-│   └── test_calendar_sync.py
-│
+
 └── .github/
     └── workflows/
         └── python-app.yml       # CI/CD (GitHub Actions)
