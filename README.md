@@ -6,6 +6,10 @@
 [![Google Calendar API](https://img.shields.io/badge/Google%20Calendar-API-yellow)](https://developers.google.com/calendar)
 [![MOEX API](https://img.shields.io/badge/MOEX-API-orange)](https://iss.moex.com/)
 
+[![Telegram](https://img.shields.io/badge/Telegram-канал-blue?logo=telegram)](ссылка)
+[![VK](https://img.shields.io/badge/VK-группа-blue?logo=vk)]([ссылка](https://vk.ru/isincalendar))
+[![Instagram](https://img.shields.io/badge/Instagram-профиль-purple?logo=instagram)](ссылка)
+
 Скрипт для автоматического добавления купонных выплат по облигациям в Google Календарь.  
 Вы просто передаёте список ISIN облигаций, а скрипт:
 
@@ -108,7 +112,7 @@ RU000A1097S8
 
 ### 4. Запустите скрипт
 ```bash
-isin_calendar.py isin_list.txt
+python isin_calendar.py isin_list.txt
 ```
 При первом запуске откроется браузер с запросом на авторизацию в Google. Войдите в свой аккаунт и дайте разрешение на доступ к календарю. После этого будет создан файл token.json — он хранит ваш доступ и позволяет запускать скрипт без повторной авторизации.
 
@@ -354,13 +358,13 @@ git push -u origin main
 
 ### 📄 Лицензия
 
-Проект распространяется под лицензией MIT. Подробнее — в файле LICENSE.
+Проект распространяется под лицензией MIT. Подробнее — в файле [LICENSE](https://github.com/ddependence/ISINCalendar/blob/main/LICENSE).
 
 ```text
 
 MIT License
 
-Copyright (c) 2025 [Ваше имя]
+Copyright (c) 2026 dep69rus
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
