@@ -7,8 +7,8 @@
 [![MOEX API](https://img.shields.io/badge/MOEX-API-orange)](https://iss.moex.com/)
 
 [![Telegram](https://img.shields.io/badge/Telegram-канал-blue?logo=telegram)](https://t.me/ISINCalendar)
-[![VK](https://img.shields.io/badge/VK-группа-blue?logo=vk)]([https://vk.ru/isincalendar])
-[![Instagram](https://img.shields.io/badge/Instagram-профиль-purple?logo=instagram)](https://instagram.com/)
+[![VK](https://img.shields.io/badge/VK-группа-blue?logo=vk)](https://vk.ru/isincalendar)
+[![Instagram](https://img.shields.io/badge/Instagram-профиль-purple?logo=instagram)](https://instagram.com/isin_calendar)
 
 Скрипт для автоматического добавления купонных выплат по облигациям в Google Календарь.  
 Вы просто передаёте список ISIN облигаций, а скрипт:
@@ -100,7 +100,7 @@ pip install requests==2.31.0 google-auth==2.23.4 google-auth-oauthlib==1.0.0 goo
 
     - Сохраните файл как credentials.json в папку со скриптом.
 
-[Официальная документация Google Calendar API] (https://developers.google.com/workspace/calendar/api/guides/overview?hl=ru)
+[Официальная документация Google Calendar API](https://developers.google.com/workspace/calendar/api/guides/overview?hl=ru)
 
 ### 3. Подготовка файла со списком ISIN
 Создайте текстовый файл (например, isin_list.txt) и укажите в нём ISIN облигаций по одному на строку:
