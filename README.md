@@ -115,18 +115,13 @@ isin_calendar.py isin_list.txt
 ---
 
 ## 📁 Структура проекта
-|        isin-calendar / 
+            |        isin-calendar
         |                  
-    
         ├── isin_calendar.py                  # Основной скрипт ⭐
-    
         ├── requirements.txt                  # Зависимости ⭐
-
-    ├── README.md                         # Документация ⭐
-
-├── .gitignore                        # Защита секретов ⭐
-
-├── LICENSE                           # Лицензия MIT
+        ├── README.md                         # Документация ⭐
+        ├── .gitignore                        # Защита секретов ⭐
+        ├── LICENSE                           # Лицензия MIT
 
 ├── CHANGELOG.md                      # История изменений
 
