@@ -124,22 +124,19 @@ isin_calendar.py isin_list.txt
         ├── LICENSE                           # Лицензия MIT
         ├── CHANGELOG.md                      # История изменений
         ├── CONTRIBUTING.md                   # Правила участия
-    │
+        │
     ├── examples/
         └── isin_list_example.txt    # Пример файла со списком ISIN
-
-    │
+        │
     ├── docs/
     └── screenshots/              # Папка для скриншотов
        ├── calendar_event_example.png
        ├── enable_api.png
        ├── create_oauth.png
        └── download_credentials.png
-    │
+       │
        └── .github/
-
     └── workflows/
-
         └── python-app.yml       # CI/CD (GitHub Actions)
 
 
