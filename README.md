@@ -366,19 +366,21 @@ git push -u origin main
 Мы постараемся ответить как можно быстрее.
 Быстрые ссылки
 
-    [📂 Репозиторий на GitHub](https://github.com/ddependence/ISINCalendar)
+- [📂 Репозиторий на GitHub](https://github.com/ddependence/ISINCalendar)
 
-    [🐛 Сообщить об ошибке](https://github.com/ddependence/ISINCalendar/issues)
+- [🐛 Сообщить об ошибке](https://github.com/ddependence/ISINCalendar/issues)
 
-    [📖 Документация Google Calendar API](https://developers.google.com/calendar)
+- [📖 Документация Google Calendar API](https://developers.google.com/calendar)
 
-    [📊 API Мосбиржи](https://iss.moex.com/)
+- [📊 API Мосбиржи](https://iss.moex.com/)
 
 ---
 
 ### «Часто задаваемые вопросы» (FAQ)
 
-```text
+```markdown
+## ❓ Часто задаваемые вопросы
+
 **Вопрос:** Что делать, если после запуска пишет `ModuleNotFoundError`?  
 **Ответ:** Убедитесь, что вы установили все зависимости из `requirements.txt` командой `pip install -r requirements.txt`.
 
