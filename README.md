@@ -121,27 +121,23 @@ python isin_calendar.py isin_list.txt
 ---
 
 ## 📁 Структура проекта
-    | isin-calendar
-        |                  
-        ├── isin_calendar.py                  # Основной скрипт ⭐
-        ├── requirements.txt                  # Зависимости ⭐
-        ├── README.md                         # Документация ⭐
-        ├── .gitignore                        # Защита секретов ⭐
-        ├── LICENSE                           # Лицензия MIT
-        ├── CHANGELOG.md                      # История изменений
-        ├── CONTRIBUTING.md                   # Правила участия
-        │
-    ├── examples/
-        └── isin_list_example.txt    # Пример файла со списком ISIN
-        │
-    ├── docs/
-    └── screenshots/              # Папка для скриншотов
-       ├── calendar_event_example.png
-       ├── enable_api.png
-       ├── create_oauth.png
-       └── download_credentials.png
-       │
-       └── .github/
+ISINCalendar/
+├── isin_calendar.py              # Основной скрипт
+├── requirements.txt              # Зависимости
+├── README.md                     # Документация
+├── .gitignore                    # Защита секретов
+├── LICENSE                       # Лицензия MIT
+├── CHANGELOG.md                  # История изменений
+├── CONTRIBUTING.md               # Правила участия
+├── examples/
+│   └── isin_list_example.txt    # Пример файла со списком ISIN
+├── docs/
+│   └── screenshots/              # Папка для скриншотов
+│       ├── calendar_event_example.png
+│       ├── enable_api.png
+│       ├── create_oauth.png
+│       └── download_credentials.png
+└── .github/
     └── workflows/
         └── python-app.yml       # CI/CD (GitHub Actions)
 
@@ -361,21 +357,6 @@ git push -u origin main
 ### 📄 Лицензия
 
 Проект распространяется под лицензией MIT. Подробнее — в файле [LICENSE](https://github.com/ddependence/ISINCalendar/blob/main/LICENSE).
-
-```text
-
-MIT License
-
-Copyright (c) 2026 dep69rus
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-...
-```
 
 ---
 
