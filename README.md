@@ -137,7 +137,6 @@ python isin_calendar.py isin_list.txt
                 ├── enable_api.png
                 ├── create_oauth.png
                 └── download_credentials.png
-            │
         └── .github/
                 └── workflows/
                 └── python-app.yml            # CI/CD (GitHub Actions)
