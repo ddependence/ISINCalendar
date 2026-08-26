@@ -10,7 +10,7 @@ from googleapiclient.errors import HttpError
 
 # --- Проверка аргумента командной строки ---
 if len(sys.argv) < 2:
-    print("Использование: python add_coupons_to_calendar.py <файл_со_списком_ISIN.txt>")
+    print("Использование: python isin_calendar.py <файл_со_списком_ISIN.txt>")
     sys.exit(1)
 
 file_path = sys.argv[1]
@@ -66,6 +66,13 @@ def get_coupons(secid):
 # --- Настройка Google Calendar ---
 
 SCOPES = ['https://www.googleapis.com/auth/calendar']
+
+# Проверка наличия credentials.json
+if not os.path.exists('credentials.json'):
+    print("❌ Ошибка: Файл credentials.json не найден.")
+    print("   Скачайте его из Google Cloud Console и поместите в папку со скриптом.")
+    sys.exit(1)
+
 creds = None
 if os.path.exists('token.json'):
     creds = Credentials.from_authorized_user_file('token.json', SCOPES)
@@ -101,9 +108,7 @@ def get_all_coupon_events():
         
         for event in events.get('items', []):
             description = event.get('description', '')
-            # Ищем ISIN в description (формат: "ISIN: RU000...")
             if 'ISIN: ' in description:
-                # Извлекаем ISIN
                 for line in description.split('\n'):
                     if line.startswith('ISIN: '):
                         isin = line.replace('ISIN: ', '').strip()
@@ -176,7 +181,7 @@ if events_to_delete:
 
 # 4. Собираем актуальные данные для всех ISIN из файла
 print("\n➜ Получаем актуальные данные по купонам...")
-coupons_to_add = []  # список (isin, name, value, date_str)
+coupons_to_add = []
 
 for isin in isin_list:
     print(f"\n  Обработка {isin}...")
@@ -191,7 +196,6 @@ for isin in isin_list:
         print(f"    ✗ Нет данных по купонам.")
         continue
     
-    # Оставляем только будущие купоны
     today = datetime.date.today()
     future_count = 0
     for value, date_str in coupons:
@@ -205,15 +209,13 @@ for isin in isin_list:
     
     print(f"    ✓ Найдено {future_count} будущих купонов.")
 
-# 5. Добавляем новые события (которых ещё нет)
+# 5. Добавляем новые события
 print(f"\n➜ Добавляем новые события...")
 added_count = 0
 for isin, name, value, date_str in coupons_to_add:
-    # Проверяем, есть ли уже такое событие в календаре
     event_date = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
     summary = f"Купон {name} {value:.2f} ₽"
     
-    # Быстрый поиск среди существующих событий
     already_exists = False
     for event_data in existing_events.values():
         if (event_data['isin'] == isin and 
@@ -223,10 +225,8 @@ for isin, name, value, date_str in coupons_to_add:
             break
     
     if already_exists:
-        # Если событие уже есть, но было удалено на шаге 3? В этом случае оно не в existing_events.
-        # Проверяем ещё раз через API напрямую
-        time_min = event_date.isoformat() + 'T00:00:00+03:00'
-        time_max = (event_date + datetime.timedelta(days=1)).isoformat() + 'T00:00:00+03:00'
+        time_min = event_date.isoformat() + 'T00:00:00Z'
+        time_max = (event_date + datetime.timedelta(days=1)).isoformat() + 'T00:00:00Z'
         search_result = service.events().list(
             calendarId=calendar_id,
             timeMin=time_min,
