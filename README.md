@@ -221,21 +221,92 @@ python isin_calendar.py isin_list.txt
   Удалено событий: 0
   Всего в календаре теперь: 2 событий 
   ```
-  
+
 ---
 
 ### 🔄 Обновление списка облигаций
+
+Вы можете в любой момент изменить список в isin_list.txt и повторно запустить скрипт.
+Будут автоматически:
+
+✅ удалены события по удалённым ISIN;
+
+✅ добавлены события по новым ISIN;
+
+✅ обновлены данные по купонам.
 
 ---
 
 ### 🧩 Требования
 
+- Python 3.8 или выше
+
+- Аккаунт Google с включённым Calendar API
+
+- Доступ к интернету (для запросов к MOEX и Google API)
+
+Точные версии библиотек (из requirements.txt)
+
+```text
+
+requests==2.31.0
+google-auth==2.23.4
+google-auth-oauthlib==1.0.0
+google-auth-httplib2==0.1.1
+google-api-python-client==2.108.0
+```
+
 ---
 
 ### 🪟 Инструкция для Windows
 ## Быстрая установка Git
+
+1. Скачайте Git с официального сайта: https://git-scm.com/download/win
+
+2. Установите с настройками по умолчанию
+
+3. Проверьте установку:
+```cmd
+git --version
+```
+
 ## Создание Personal Access Token (PAT)
+1. GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
+
+2. Нажмите "Generate new token (classic)"
+
+3. Выберите срок действия (рекомендуется 90 дней)
+
+4. Отметьте repo (все)
+
+5. Скопируйте сгенерированный токен (показывается только один раз!)
+
 ## Публикация проекта
+Откройте командную строку в папке с проектом и выполните:
+
+```cmd
+# Инициализация Git
+git init
+
+# Настройка имени и email
+git config --global user.name "Ваше Имя"
+git config --global user.email "your.email@example.com"
+
+# Добавление файлов
+git add .
+
+# Создание коммита
+git commit -m "Initial commit: Добавлен скрипт ISIN Calendar"
+
+# Переименование ветки
+git branch -M main
+
+# Подключение к GitHub
+git remote add origin https://github.com/ВАШ_ЛОГИН/isin-calendar.git
+
+# Отправка на GitHub (вместо пароля введите Personal Access Token)
+git push -u origin main
+```
 
 ### Синхронизация с Android (Poco / Xiaomi HyperOS)
 ## Проблема: на HyperOS не синхронизируется календарь
