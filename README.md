@@ -121,7 +121,7 @@ python isin_calendar.py isin_list.txt
 ---
 
 ## 📁 Структура проекта
-isin-calendar/                  
+    isin-calendar/                  
     ├── isin_calendar.py                  # Основной скрипт ⭐
     ├── requirements.txt                  # Зависимости ⭐
     ├── README.md                         # Документация ⭐
