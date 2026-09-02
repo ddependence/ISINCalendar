@@ -8,60 +8,80 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-# --- Проверка аргумента командной строки ---
-if len(sys.argv) < 2:
-    print("Использование: python isin_calendar.py <файл_со_списком_ISIN.txt>")
-    sys.exit(1)
+# --- Константы ---
+ISIN_FILE = "isin_list.txt"  # Имя файла со списком ISIN (фиксированное)
 
-file_path = sys.argv[1]
+# --- Проверка наличия файла ISIN ---
+if not os.path.exists(ISIN_FILE):
+    print(f"❌ Ошибка: Файл '{ISIN_FILE}' не найден в текущей папке.")
+    print("   Создайте файл и укажите в нём ISIN облигаций по одному на строку.")
+    print("   Пример файла: https://github.com/ddependence/ISINCalendar/blob/main/examples/ISIN_example.txt")
+    sys.exit(1)
 
 # --- Чтение ISIN из файла ---
-with open(file_path, 'r', encoding='utf-8') as f:
-    isin_list = [line.strip() for line in f if line.strip()]
-
-if not isin_list:
-    print("Файл пуст или не содержит ISIN.")
+try:
+    with open(ISIN_FILE, 'r', encoding='utf-8') as f:
+        isin_list = [line.strip() for line in f if line.strip()]
+except Exception as e:
+    print(f"❌ Ошибка при чтении файла: {e}")
     sys.exit(1)
 
-print(f"Найдено {len(isin_list)} ISIN для обработки.")
+if not isin_list:
+    print(f"❌ Ошибка: Файл '{ISIN_FILE}' пуст или не содержит ISIN.")
+    sys.exit(1)
+
+print(f"✅ Найдено {len(isin_list)} ISIN для обработки.")
 
 # --- Функции для работы с API Мосбиржи ---
 
 def find_security_id(isin):
-    """Поиск инструмента по ISIN, возвращает secid и название."""
+    """
+    Поиск инструмента по ISIN, возвращает secid и название.
+    Возвращает (secid, shortname) или (None, None) при ошибке.
+    """
     url = "https://iss.moex.com/iss/securities.json"
     params = {
         "q": isin,
         "iss.meta": "off",
-        "securities.columns": "secid,shortname,isbn"
+        "securities.columns": "secid,shortname,isbn"  # isbn = ISIN
     }
-    resp = requests.get(url, params=params)
-    resp.raise_for_status()
-    data = resp.json()
-    rows = data.get("securities", {}).get("data", [])
-    for row in rows:
-        if len(row) >= 3 and row[2] == isin:
-            return row[0], row[1]
+    try:
+        resp = requests.get(url, params=params, timeout=10)
+        resp.raise_for_status()
+        data = resp.json()
+        rows = data.get("securities", {}).get("data", [])
+        for row in rows:
+            if len(row) >= 3 and row[2] == isin:
+                return row[0], row[1]
+    except (requests.RequestException, ValueError, KeyError) as e:
+        print(f"    ⚠️ Ошибка запроса к Мосбирже для ISIN {isin}: {e}")
     return None, None
 
 def get_coupons(secid):
-    """Получить список купонов для бумаги по secid."""
+    """
+    Получить список купонов для бумаги по secid.
+    Возвращает список кортежей (value, date_str).
+    """
     url = f"https://iss.moex.com/iss/securities/{secid}/coupons.json"
     params = {
         "iss.meta": "off",
         "coupons.columns": "couponvalue,coupondate"
     }
-    resp = requests.get(url, params=params)
-    resp.raise_for_status()
-    data = resp.json()
-    rows = data.get("coupons", {}).get("data", [])
-    coupons = []
-    for row in rows:
-        if len(row) >= 2:
-            value = row[0]
-            date_str = row[1]
-            coupons.append((value, date_str))
-    return coupons
+    try:
+        resp = requests.get(url, params=params, timeout=10)
+        resp.raise_for_status()
+        data = resp.json()
+        rows = data.get("coupons", {}).get("data", [])
+        coupons = []
+        for row in rows:
+            if len(row) >= 2:
+                value = row[0]
+                date_str = row[1]
+                coupons.append((value, date_str))
+        return coupons
+    except (requests.RequestException, ValueError, KeyError) as e:
+        print(f"    ⚠️ Ошибка запроса купонов для {secid}: {e}")
+        return []
 
 # --- Настройка Google Calendar ---
 
@@ -73,56 +93,76 @@ if not os.path.exists('credentials.json'):
     print("   Скачайте его из Google Cloud Console и поместите в папку со скриптом.")
     sys.exit(1)
 
+# Авторизация
 creds = None
 if os.path.exists('token.json'):
-    creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+    try:
+        creds = Credentials.from_authorized_user_file('token.json', SCOPES)
+    except Exception as e:
+        print(f"⚠️ Ошибка чтения token.json: {e}. Будет выполнена повторная авторизация.")
+
 if not creds or not creds.valid:
     if creds and creds.expired and creds.refresh_token:
-        creds.refresh(Request())
-    else:
-        flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
-        creds = flow.run_local_server(port=0)
+        try:
+            creds.refresh(Request())
+        except Exception as e:
+            print(f"⚠️ Ошибка обновления токена: {e}. Выполняется полная авторизация.")
+            creds = None
+    if not creds:
+        try:
+            flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+            creds = flow.run_local_server(port=0)
+        except Exception as e:
+            print(f"❌ Ошибка авторизации: {e}")
+            sys.exit(1)
     with open('token.json', 'w') as token:
         token.write(creds.to_json())
 
-service = build('calendar', 'v3', credentials=creds)
+try:
+    service = build('calendar', 'v3', credentials=creds)
+except Exception as e:
+    print(f"❌ Ошибка создания сервиса Google Calendar: {e}")
+    sys.exit(1)
+
 calendar_id = 'primary'
 
 # --- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ДЛЯ РАБОТЫ С КАЛЕНДАРЁМ ---
 
 def get_all_coupon_events():
     """
-    Возвращает словарь: {event_id: (isin, summary, date)}
+    Возвращает словарь: {event_id: {'isin': isin, 'summary': summary, 'date': date}}
     для всех событий, созданных этим скриптом (содержат ISIN в description).
     """
     events_dict = {}
     page_token = None
-    while True:
-        events = service.events().list(
-            calendarId=calendar_id,
-            pageToken=page_token,
-            timeMin=datetime.datetime(2000, 1, 1).isoformat() + 'Z',
-            timeMax=datetime.datetime(2100, 1, 1).isoformat() + 'Z',
-            maxResults=2500
-        ).execute()
-        
-        for event in events.get('items', []):
-            description = event.get('description', '')
-            if 'ISIN: ' in description:
-                for line in description.split('\n'):
-                    if line.startswith('ISIN: '):
-                        isin = line.replace('ISIN: ', '').strip()
-                        events_dict[event['id']] = {
-                            'isin': isin,
-                            'summary': event.get('summary', ''),
-                            'date': event.get('start', {}).get('date', '')
-                        }
-                        break
-        
-        page_token = events.get('nextPageToken')
-        if not page_token:
-            break
-    
+    try:
+        while True:
+            events = service.events().list(
+                calendarId=calendar_id,
+                pageToken=page_token,
+                timeMin=datetime.datetime(2000, 1, 1).isoformat() + 'Z',
+                timeMax=datetime.datetime(2100, 1, 1).isoformat() + 'Z',
+                maxResults=2500
+            ).execute()
+            
+            for event in events.get('items', []):
+                description = event.get('description', '')
+                if 'ISIN: ' in description:
+                    for line in description.split('\n'):
+                        if line.startswith('ISIN: '):
+                            isin = line.replace('ISIN: ', '').strip()
+                            events_dict[event['id']] = {
+                                'isin': isin,
+                                'summary': event.get('summary', ''),
+                                'date': event.get('start', {}).get('date', '')
+                            }
+                            break
+            
+            page_token = events.get('nextPageToken')
+            if not page_token:
+                break
+    except HttpError as e:
+        print(f"⚠️ Ошибка получения событий из календаря: {e}")
     return events_dict
 
 def delete_event(event_id):
@@ -131,12 +171,17 @@ def delete_event(event_id):
         service.events().delete(calendarId=calendar_id, eventId=event_id).execute()
         return True
     except HttpError as e:
-        print(f"  Ошибка при удалении: {e}")
+        print(f"  ⚠️ Ошибка при удалении: {e}")
         return False
 
 def create_event(isin, name, value, date_str):
     """Создать событие в календаре."""
-    event_date = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
+    try:
+        event_date = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
+    except ValueError:
+        print(f"  ⚠️ Некорректный формат даты: {date_str}")
+        return False
+
     summary = f"Купон {name} {value:.2f} ₽"
     
     event_body = {
@@ -154,20 +199,19 @@ def create_event(isin, name, value, date_str):
         event = service.events().insert(calendarId=calendar_id, body=event_body).execute()
         return True
     except HttpError as e:
-        print(f"  Ошибка при создании: {e}")
+        print(f"  ⚠️ Ошибка при создании события: {e}")
         return False
 
 # --- ОСНОВНАЯ ЛОГИКА ---
 
-# 1. Получаем все события, созданные скриптом
 print("\n➜ Получаем существующие события в календаре...")
 existing_events = get_all_coupon_events()
 print(f"  Найдено {len(existing_events)} событий, созданных скриптом.")
 
-# 2. Формируем набор ISIN, которые должны остаться
+# Формируем набор ISIN, которые должны остаться
 target_isins = set(isin_list)
 
-# 3. Удаляем события для ISIN, которых уже нет в файле
+# Удаляем события для ISIN, которых уже нет в файле
 events_to_delete = []
 for event_id, event_data in existing_events.items():
     if event_data['isin'] not in target_isins:
@@ -179,7 +223,7 @@ if events_to_delete:
         if delete_event(event_id):
             print(f"  ✓ Удалено событие: {existing_events[event_id]['summary']}")
 
-# 4. Собираем актуальные данные для всех ISIN из файла
+# Собираем актуальные данные для всех ISIN из файла
 print("\n➜ Получаем актуальные данные по купонам...")
 coupons_to_add = []
 
@@ -204,18 +248,23 @@ for isin in isin_list:
             if event_date >= today:
                 coupons_to_add.append((isin, name, value, date_str))
                 future_count += 1
-        except:
+        except ValueError:
             continue
     
     print(f"    ✓ Найдено {future_count} будущих купонов.")
 
-# 5. Добавляем новые события
+# Добавляем новые события
 print(f"\n➜ Добавляем новые события...")
 added_count = 0
 for isin, name, value, date_str in coupons_to_add:
-    event_date = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
+    try:
+        event_date = datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
+    except ValueError:
+        continue
+
     summary = f"Купон {name} {value:.2f} ₽"
     
+    # Проверяем, существует ли уже такое событие
     already_exists = False
     for event_data in existing_events.values():
         if (event_data['isin'] == isin and 
@@ -225,16 +274,20 @@ for isin, name, value, date_str in coupons_to_add:
             break
     
     if already_exists:
+        # Дополнительная проверка через API (на случай, если событие было создано вручную)
         time_min = event_date.isoformat() + 'T00:00:00Z'
         time_max = (event_date + datetime.timedelta(days=1)).isoformat() + 'T00:00:00Z'
-        search_result = service.events().list(
-            calendarId=calendar_id,
-            timeMin=time_min,
-            timeMax=time_max,
-            q=summary
-        ).execute()
-        if search_result.get('items'):
-            already_exists = True
+        try:
+            search_result = service.events().list(
+                calendarId=calendar_id,
+                timeMin=time_min,
+                timeMax=time_max,
+                q=summary
+            ).execute()
+            if search_result.get('items'):
+                already_exists = True
+        except HttpError:
+            pass
     
     if already_exists:
         print(f"  Пропускаем (уже есть): {summary} на {date_str}")
@@ -247,4 +300,5 @@ for isin, name, value, date_str in coupons_to_add:
 print(f"\n✅ Готово!")
 print(f"  Добавлено событий: {added_count}")
 print(f"  Удалено событий: {len(events_to_delete)}")
-print(f"  Всего в календаре теперь: {len(existing_events) - len(events_to_delete) + added_count} событий")
+total_events = len(existing_events) - len(events_to_delete) + added_count
+print(f"  Всего в календаре теперь: {total_events} событий")
