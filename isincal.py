@@ -43,7 +43,7 @@ def find_security_id(isin):
     params = {
         "q": isin,
         "iss.meta": "off",
-        "securities.columns": "secid,shortname,isbn"  # isbn = ISIN
+        "securities.columns": "secid,shortname,isin"  # isin = ISIN
     }
     try:
         resp = requests.get(url, params=params, timeout=10)
