@@ -114,9 +114,18 @@ if not creds or not creds.valid:
             creds = flow.run_local_server(port=0)
         except Exception as e:
             print(f"❌ Ошибка авторизации: {e}")
+            # Добавляем подсказку для самой частой причины (403 access_denied)
+            print("   Возможная причина: ваше приложение в Google Cloud Console находится в тестовом режиме,")
+            print("   а ваш аккаунт не добавлен в список тестовых пользователей.")
+            print("   Добавьте свой Gmail в разделе 'OAuth consent screen' → 'Test users' и повторите попытку.")
             sys.exit(1)
-    with open('token.json', 'w') as token:
-        token.write(creds.to_json())
+    # Убедимся, что creds не None перед записью
+    if creds:
+        with open('token.json', 'w') as token:
+            token.write(creds.to_json())
+    else:
+        print("❌ Критическая ошибка: не удалось получить учётные данные.")
+        sys.exit(1)
 
 try:
     service = build('calendar', 'v3', credentials=creds)
