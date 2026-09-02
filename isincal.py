@@ -59,10 +59,10 @@ def find_security_id(isin):
 
 def get_coupons(secid):
     """
-    Получить список купонов для бумаги по secid.
-    Возвращает список кортежей (value, date_str).
+    Получить список купонов для облигации по её secid.
+    Используется специфический endpoint для облигаций.
     """
-    url = f"https://iss.moex.com/iss/securities/{secid}/coupons.json"
+    url = f"https://iss.moex.com/iss/engines/stock/markets/bonds/securities/{secid}/coupons.json"
     params = {
         "iss.meta": "off",
         "coupons.columns": "couponvalue,coupondate"
